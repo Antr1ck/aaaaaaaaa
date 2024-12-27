@@ -1,0 +1,159 @@
+#include <iostream>
+#define SIZE 100
+
+using namespace std;
+
+class guide 
+{
+private:
+    char name[SIZE]; 
+    char owner[SIZE]; 
+    char phone[SIZE];  
+    char address[SIZE];  
+    char activity[SIZE]; 
+
+public:
+   
+    guide(const char* n, const char* o, const char* p, const char* a, const char* ac) 
+    {
+        strncpy(name, n, SIZE);
+        strncpy(owner, o, SIZE);
+        strncpy(phone, p, SIZE);
+        strncpy(address, a, SIZE);
+        strncpy(activity, ac, SIZE);
+    }
+
+    char* getna() 
+    { 
+        return name; 
+    }
+    char* getow()
+    { 
+        return owner; 
+    }
+    char* getph()
+    {
+        return phone; 
+    }
+    char* getad()
+    {
+        return address;
+    }
+    char* getac() 
+    { 
+        return activity;
+    }
+
+    void all() const
+    {
+        cout << name << owner << phone << address << activity;
+    }
+};
+
+class guid 
+{
+private:
+    guide* guideli[SIZE];
+    int count;
+
+public:
+
+    guid() : count{ 0 } {}
+
+    void add(const guide& list) 
+    {
+        if (count < SIZE) 
+        {
+            guideli[count] = new guide(list);
+            count++;
+        }
+    }
+
+    void searchna(const char* name) 
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (strcmp(guideli[i]->getna(), name) == 0) 
+            {
+                guideli[i]->all();
+                return;
+            }
+        }
+    }
+
+    void searchow(const char* owner) 
+    {
+        for (int i = 0; i < count; i++) 
+        {
+            if (strcmp(guideli[i]->getow(), owner) == 0) 
+            {
+                guideli[i]->all();
+                return;
+            }
+        }
+    }
+
+    void searchph(const char* phone) 
+    {
+        for (int i = 0; i < count; i++) 
+        {
+            if (strcmp(guideli[i]->getph(), phone) == 0) 
+            {
+                guideli[i]->all();
+                return;
+            }
+        }
+    }
+
+    void searchac(const char* activity) 
+    {
+        for (int i = 0; i < count; i++) 
+        {
+            if (strcmp(guideli[i]->getac(), activity) == 0) 
+            {
+                guideli[i]->all();
+                return;
+            }
+        }
+    }
+
+    void all() 
+    {
+        if (count == 0) 
+        {
+            cout << "empty";
+            return;
+        }
+        for (int i = 0; i < count; i++)
+        {
+            guideli[i]->all();
+        }
+    }
+
+    ~guid() 
+    {
+        for (int i = 0; i < count; i++) 
+        {
+            delete guideli[i];
+        }
+    }
+};
+
+int main() 
+{
+    guid guidee;
+
+    guidee.add(guide("Apple", "Tim", "123456789", "USA", "production"));
+
+    guidee.all();
+
+    guidee.searchna("Apple");
+
+    guidee.searchow("Tim");
+
+    guidee.searchph("123456789");
+
+    guidee.searchac("production");
+
+    return 0;
+}
